@@ -24,6 +24,8 @@ public class Transfer {
 
     }
 
+    public Transfer() {}
+
     public Long getTransferId() {
         return transferId;
     }
