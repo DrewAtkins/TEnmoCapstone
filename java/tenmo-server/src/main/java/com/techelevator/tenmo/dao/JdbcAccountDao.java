@@ -17,21 +17,33 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal retrieveBalance(Long userId) throws UsernameNotFoundException {
-        String sql = "SELECT balance FROM accounts WHERE user_id = ?;";
-        BigDecimal balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userId);
+    public BigDecimal retrieveBalance(String userName) throws UsernameNotFoundException {
+        String sql = "SELECT balance " +
+                "FROM users " +
+                "JOIN accounts " +
+                "ON users.user_id = accounts.user_id " +
+                "WHERE username = ?;";
+        BigDecimal balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userName);
         return balance;
     }
 
     @Override
-    public Account findAccountById(Long userId) throws UsernameNotFoundException {
-        String sql = "SELECT account_id, balance FROM accounts WHERE user_id = ?;";
+    public Account findAccountByUsername(String userName) throws UsernameNotFoundException {
+        String sql = "SELECT account_id, users.user_id, balance" +
+                " FROM users JOIN accounts ON users.user_id = accounts.user_id WHERE username = ?;";
         Account account = null;
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userName);
               if (results.next()) {
                   account = mapRowToAccount(results);
               }
         return account;
+    }
+    @Override
+   public Long getAccountIdByUsername(String userName){
+        String sql = "SELECT account_id FROM users JOIN accounts ON users.user_id = accounts.user_id" +
+                " WHERE username = ?;";
+        Long accountid = jdbcTemplate.queryForObject(sql, Long.class, userName);
+        return accountid;
     }
 
     private Account mapRowToAccount(SqlRowSet rowSet){

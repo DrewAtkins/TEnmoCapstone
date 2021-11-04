@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 
 @PreAuthorize("isAuthenticated()")
 @RestController
@@ -25,15 +26,16 @@ public class AccountController {
 
     }
 
-    @RequestMapping(path ="/balance/{id}", method = RequestMethod.GET)
-    public BigDecimal retrieveBalance(@PathVariable Long userId) throws UsernameNotFoundException {
-        BigDecimal balance = accountDao.retrieveBalance(userId);
+    //TODO fix exceptions
+    @RequestMapping(path ="/balance", method = RequestMethod.GET)
+    public BigDecimal retrieveBalance(Principal user) throws UsernameNotFoundException {
+        BigDecimal balance = accountDao.retrieveBalance(user.getName());
         return balance;
     }
 
-    @RequestMapping(path ="/account/{id}", method = RequestMethod.GET)
-    public Account findAccountById(@PathVariable Long userId) throws UsernameNotFoundException {
-        Account account = accountDao.findAccountById(userId);
+    @RequestMapping(path ="/account", method = RequestMethod.GET)
+    public Account findAccountByUsername(Principal user) throws UsernameNotFoundException {
+        Account account = accountDao.findAccountByUsername(user.getName());
         return account;
     }
 }

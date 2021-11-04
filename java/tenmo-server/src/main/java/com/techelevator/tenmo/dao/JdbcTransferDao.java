@@ -16,11 +16,14 @@ import java.util.List;
 public class JdbcTransferDao implements TransferDao{
 
     private JdbcTemplate jdbcTemplate;
+    private AccountDao accountDao;
 
     //implements TransferDao
 
-    public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
+    // is this constructor necessary?? VVV
+    public JdbcTransferDao(JdbcTemplate jdbcTemplate, AccountDao accountDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.accountDao = accountDao;
     }
 
    @Override
