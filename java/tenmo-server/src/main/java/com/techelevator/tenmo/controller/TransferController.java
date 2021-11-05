@@ -25,9 +25,15 @@ public class TransferController {
     }
 
 
+
     @RequestMapping(path = "/transfer", method = RequestMethod.POST)
     public Transfer sendMoney(@RequestBody Transfer transfer, Principal user){
-        return transferDao.sendMoney(accountDao.getAccountIdByUsername(user.));
+       transferDao.sendMoney(transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
+      return transfer;
     }
+
+
+
+
 
 }

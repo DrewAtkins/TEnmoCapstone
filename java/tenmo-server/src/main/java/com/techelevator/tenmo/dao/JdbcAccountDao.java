@@ -38,6 +38,8 @@ public class JdbcAccountDao implements AccountDao {
               }
         return account;
     }
+
+   // does this need to be mapped?? VVVV what is his purpose - "helper method for our sendMonday mapping" //TODO ask dave
     @Override
    public Long getAccountIdByUsername(String userName){
         String sql = "SELECT account_id FROM users JOIN accounts ON users.user_id = accounts.user_id" +
@@ -55,3 +57,4 @@ public class JdbcAccountDao implements AccountDao {
     }
 }
 
+//TODO ask dave, how to implement methods on the client side

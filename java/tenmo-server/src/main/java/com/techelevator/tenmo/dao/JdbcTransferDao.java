@@ -28,9 +28,9 @@ public class JdbcTransferDao implements TransferDao{
 
    @Override
     public void sendMoney(Long accountFrom, Long accountTo, BigDecimal amount)  {
-    String sql = ("INSERT INTO transfers(transfer_type_id, transfer_status_id, account_from, account_to, amount " +
-            "VALUES(2,2,?,?,?) RETURNING transfer_id;");
-     jdbcTemplate.update(sql, String.class, accountFrom, accountTo, amount);
+    String sql = ("INSERT INTO transfers(transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+            "VALUES(?,?,?,?,?);");
+     jdbcTemplate.update(sql,2, 2, accountFrom, accountTo, amount); // does string need to be in here? //TODO ask dave
 
      //add to account to
     addToRecipient(amount, accountTo);
@@ -39,15 +39,15 @@ public class JdbcTransferDao implements TransferDao{
     }
 
     @Override
-    public void addToRecipient(BigDecimal amount, Long userId) {
-    String sql = ("UPDATE accounts SET balance = balance + ? WHERE user_id = ?;");
-    jdbcTemplate.update(sql, amount, userId);
+    public void addToRecipient(BigDecimal amount, Long accountToId) {
+    String sql = ("UPDATE accounts SET balance = balance + ? WHERE account_id = ?;");
+    jdbcTemplate.update(sql, amount, accountToId);
     }
 
     @Override
-    public void subtractFromSender(BigDecimal amount, Long userId) {
-    String sql = ("UPDATE accounts SET balance = balance - ? WHERE user_id = ?;");
-    jdbcTemplate.update(sql, amount, userId);
+    public void subtractFromSender(BigDecimal amount, Long accountFromId) {
+    String sql = ("UPDATE accounts SET balance = balance - ? WHERE account_id = ?;");
+    jdbcTemplate.update(sql, amount, accountFromId);
     }
 
     @Override
@@ -84,5 +84,5 @@ public class JdbcTransferDao implements TransferDao{
           balance = balance.subtract(transferAmount);
             return balance;
         }
-     */
+     */ //TODO ask dave where he go ^ if anywhere
 }
