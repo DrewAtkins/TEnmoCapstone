@@ -1,6 +1,8 @@
 package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import okhttp3.Response;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,11 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class AccountService {
 
 private String baseUrl;
 private RestTemplate restTemplate = new RestTemplate();
+private User user;
 
 
 public AccountService(String url) {
@@ -37,6 +41,11 @@ return balance;
         headers.setBearerAuth(user.getToken());
         return new HttpEntity<>(headers);
 
+    }
+
+    public Transfer[]  getTransfers(AuthenticatedUser user, Long userId){
+    Transfer[] transfers = null;
+    ResponseEntity<Transfer[]> response = restTemplate.exchange(baseUrl + "")
     }
 
 }

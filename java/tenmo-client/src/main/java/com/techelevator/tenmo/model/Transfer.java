@@ -1,9 +1,5 @@
 package com.techelevator.tenmo.model;
 
-import com.techelevator.tenmo.dao.TransferDao;
-
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public class Transfer {
@@ -13,11 +9,22 @@ public class Transfer {
     private Long transferStatusId;
     private Long accountFrom;
     private Long accountTo;
-    @Positive(message = "Transfer amount must a positive number.")
     private BigDecimal amount;
 
+
+    public Transfer() {
+
+    }
+
+    public Transfer(Long accountFrom, Long accountTo, BigDecimal amount){
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
+        this.amount = amount;
+
+    }
+
     public Transfer(Long transferId, Long transferTypeId, Long transferStatusId, Long accountFrom,
-                    Long accountTo, BigDecimal amount){
+                    Long accountTo, BigDecimal amount) {
         this.transferId = transferId;
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
@@ -26,8 +33,6 @@ public class Transfer {
         this.amount = amount;
 
     }
-
-    public Transfer() {}
 
     public Long getTransferId() {
         return transferId;
