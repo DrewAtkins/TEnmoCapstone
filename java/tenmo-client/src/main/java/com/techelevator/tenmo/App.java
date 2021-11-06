@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -8,6 +9,8 @@ import com.techelevator.tenmo.services.AuthenticationServiceException;
 import com.techelevator.view.ConsoleService;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 public class App {
 
@@ -79,8 +82,16 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void viewTransferHistory() {
+		Transfer[] transfers = accountService.getTransfers(currentUser);
 
-		// TODO Auto-generated method stub
+		for (Transfer transfer : transfers){
+			System.out.println("Your transfer history");
+			System.out.println("-------------");
+			System.out.println("Account from: " + transfer.getAccountFrom());
+			System.out.println("Account to: " + transfer.getAccountTo());
+			System.out.println("Total amount transferred : " + transfer.getAmount());
+			System.out.println("-------------");
+		}
 		
 	}
 
