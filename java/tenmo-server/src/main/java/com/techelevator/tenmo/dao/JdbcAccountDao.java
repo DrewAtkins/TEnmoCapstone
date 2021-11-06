@@ -18,12 +18,16 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public BigDecimal retrieveBalance(String userName) throws UsernameNotFoundException {
+        BigDecimal balance = new BigDecimal(0.00);
         String sql = "SELECT balance " +
                 "FROM users " +
                 "JOIN accounts " +
                 "ON users.user_id = accounts.user_id " +
                 "WHERE username = ?;";
-        BigDecimal balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userName);
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userName);
+        if (results.next()) {
+            balance = results.getBigDecimal("balance");
+        }
         return balance;
     }
 

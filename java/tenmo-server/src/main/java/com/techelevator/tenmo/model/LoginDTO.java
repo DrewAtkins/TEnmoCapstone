@@ -31,4 +31,6 @@ public class LoginDTO {
               ", password='" + password + '\'' +
               '}';
    }
+
+   //TODO ask dave about seeing consistently seeing toString overridden at times
 }

@@ -31,7 +31,11 @@ public class JdbcTransferDao implements TransferDao{
     String sql = ("INSERT INTO transfers(transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
             "VALUES(?,?,?,?,?);");
      jdbcTemplate.update(sql,2, 2, accountFrom, accountTo, amount); // does string need to be in here? //TODO ask dave
-
+       /*BigDecimal transferAmount = new BigDecimal(50.00);
+       if (balance.compareTo(transferAmount) >= 0) {
+           balance = balance.subtract(transferAmount);
+           return balance; */
+       //TODO ^^^^ implement overdraft stuff
      //add to account to
     addToRecipient(amount, accountTo);
      //subtract from account from

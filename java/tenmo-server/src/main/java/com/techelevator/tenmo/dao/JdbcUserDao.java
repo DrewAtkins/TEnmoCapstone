@@ -46,6 +46,18 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
+    public List<User> listOfUsersForTransfer() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT user_id, username, password_hash FROM users;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()) {
+            User user = mapRowToUser(results);
+            users.add(user);
+        }
+        return users;
+    }
+    // ^^ need entire object, just .getUsername,
+    @Override
     public User findByUsername(String username) throws UsernameNotFoundException {
         String sql = "SELECT user_id, username, password_hash FROM users WHERE username ILIKE ?;";
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
@@ -78,6 +90,8 @@ public class JdbcUserDao implements UserDao {
 
         return true;
     }
+
+
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
