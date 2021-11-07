@@ -4,10 +4,7 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import okhttp3.Response;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -17,12 +14,12 @@ public class AccountService {
 
     private String baseUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    private User user;
+   // private User user;
+    private Transfer transfer;
 
 
     public AccountService(String url) {
         this.baseUrl = url;
-
     }
 
     // this can be named anything VVV name is used for reference
@@ -51,12 +48,21 @@ public class AccountService {
     }
 
     //TODO Work on this
-//    public Transfer sendMoney(AuthenticatedUser user, Long accountTo, BigDecimal amount) {
-//       BigDecimal amountToSend = new BigDecimal(0.00);
-//        ResponseEntity<BigDecimal> responseEntity = restTemplate.exchange(baseUrl + "tenmo/transfer", HttpMethod.POST, makeAuthEntity(user), BigDecimal.class);
-//       amountToSend = responseEntity.getBody();
-//       return amountToSend;
-   // }
+    public void sendMoney(AuthenticatedUser user, Long accountTo, BigDecimal amount) {
+        Transfer transfer = new Transfer();
+        transfer.setAccountTo(accountTo);
+        transfer.setAmount(amount);
+        ResponseEntity responseEntity = restTemplate.exchange(baseUrl + "tenmo/transfer",
+                HttpMethod.POST, makeTransferEntity(user, transfer), Transfer.class);
+      // amountToSend = responseEntity.getBody();
+    }
 
 
+    private HttpEntity<Transfer> makeTransferEntity(AuthenticatedUser user, Transfer transfer) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(user.getToken());
+        return new HttpEntity<Transfer>(transfer, headers);
+
+    }
 }

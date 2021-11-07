@@ -33,6 +33,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
     private AuthenticationService authenticationService;
     private AccountService accountService;
 
+
     public static void main(String[] args) {
     	App app = new App(new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL));
     	app.run();
@@ -101,7 +102,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
+
 		
 	}
 
