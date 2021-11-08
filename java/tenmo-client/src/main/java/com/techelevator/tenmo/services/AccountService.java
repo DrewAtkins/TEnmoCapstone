@@ -31,6 +31,7 @@ public class AccountService {
         return balance;
     }
 
+    //getaccIdfromUserId - method //TODO
 
     //this is setting our token VVV help method
     private HttpEntity<Void> makeAuthEntity(AuthenticatedUser user) {
@@ -52,9 +53,16 @@ public class AccountService {
         Transfer transfer = new Transfer();
         transfer.setAccountTo(accountTo);
         transfer.setAmount(amount);
-        ResponseEntity responseEntity = restTemplate.exchange(baseUrl + "tenmo/transfer",
-                HttpMethod.POST, makeTransferEntity(user, transfer), Transfer.class);
+        ResponseEntity<Transfer> responseEntity = restTemplate.exchange(baseUrl + "tenmo/transfer",
+                HttpMethod.POST, makeTransferEntity(user, transfer), Transfer.class); //<-- has to do with what we are expecting to get back from post to Server, not the method?
       // amountToSend = responseEntity.getBody();
+    }
+
+    public User[] listOfUsersForTransfer(AuthenticatedUser user) {
+        User[] users = null;
+        ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "tenmo/users", HttpMethod.GET, makeAuthEntity(user), User[].class);
+        users = response.getBody();
+        return users;
     }
 
 

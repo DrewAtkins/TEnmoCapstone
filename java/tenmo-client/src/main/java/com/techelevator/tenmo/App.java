@@ -2,6 +2,7 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -102,8 +103,22 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void sendBucks() {
+		User[] users = accountService.listOfUsersForTransfer(currentUser);
 
-		
+		for (User user : users) {
+			System.out.println(user.getId() +  " | " + user.getUsername());
+		}
+
+		Integer userToSendTo = console.getUserInputInteger("Select a user ID to send money to: ");
+		 // Integer accNumberToSend = getaccIDfromUserId(userTosendTo)
+
+		Integer amountToSend = console.getUserInputInteger("How much money would you like to send? Please only send" +
+				"money you have.. please.");
+		Long userID = (long)userToSendTo; //accNumberToSend instead of userToSend
+		BigDecimal moneyToSend = new BigDecimal(amountToSend);
+
+		accountService.sendMoney(currentUser, userID, moneyToSend); //accId instead of UserId
+
 	}
 
 	private void requestBucks() {

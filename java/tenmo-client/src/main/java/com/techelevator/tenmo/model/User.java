@@ -2,7 +2,7 @@ package com.techelevator.tenmo.model;
 
 public class User {
 
-	private Integer id;
+	private Integer id; //potential problem server side = long, this is int.
 	private String username;
 
 	public Integer getId() {
